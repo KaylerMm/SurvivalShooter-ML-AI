@@ -15,7 +15,7 @@ class Enemy:
         self.last_shot = 0
         self.shoot_delay = 1000  # ms
 
-        # Carrega modelos
+        # Loads models
         model_path_x = "ai/models/model_x.joblib"
         model_path_y = "ai/models/model_y.joblib"
         if os.path.exists(model_path_x) and os.path.exists(model_path_y):
@@ -39,7 +39,7 @@ class Enemy:
             pred_y = self.model_y.predict(features)[0]
             self.predicted_pos = (int(pred_x), int(pred_y))
 
-            # Tiro com delay
+            # Shooting logic
             if now - self.last_shot > self.shoot_delay:
                 bullet = EnemyBullet(
                     self.rect.centerx,
@@ -50,11 +50,11 @@ class Enemy:
                 self.bullets.append(bullet)
                 self.last_shot = now
 
-        # Atualiza projéteis
+        # Updates projectiles
         for bullet in self.bullets:
             bullet.update()
 
-        # Remove balas fora da tela
+        # Remove bullets that are out of bounds
         self.bullets = [b for b in self.bullets if 0 <= b.rect.x <= 800 and 0 <= b.rect.y <= 600]
 
     def draw(self, win):

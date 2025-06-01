@@ -6,7 +6,8 @@ from game.player import Player
 from game.enemy import Enemy
 from sklearn.linear_model import SGDClassifier
 from ai.trainer import main as train_models
-# --- Inicializações ---
+
+# --- Initializations ---
 
 def init_pygame(width=1000, height=1000):
     pygame.init()
@@ -26,7 +27,7 @@ def init_data_file(path='data/player_moves.csv'):
     os.makedirs('data', exist_ok=True)
     f = open(path, 'a', newline='')
     writer = csv.writer(f)
-    if( os.stat(path).st_size == 0):  # Verifica se o arquivo está vazio
+    if( os.stat(path).st_size == 0):
         writer.writerow(['x', 'y', 'vx', 'vy', 'timestamp'])
     return f, writer
 
@@ -35,7 +36,7 @@ def init_enemy_model():
     model.partial_fit([[0]], [0], classes=[0, 1])
     return model
 
-# --- Desenho na tela ---
+# --- Screen Drawing ---
 
 def draw_text(surface, text, size, x, y, color=(255, 255, 255)):
     font = pygame.font.SysFont("Arial", size)
@@ -59,7 +60,7 @@ def train_in_background():
     from ai.trainer import main as train_models
     train_models()
 
-# --- Lógica do jogo ---
+# --- Game Logic ---
 
 def handle_events(running, game_over, button_rect, click_sound, player, enemy, data_file, data_writer):
     for event in pygame.event.get():
@@ -101,7 +102,7 @@ def draw_game_over(win, survival_time_sec, high_score, button_rect, mouse_pos):
     draw_text(win, f"High Score: {high_score}s", 40, WIDTH // 2 - 130, HEIGHT // 2 + 10)
     draw_button(win, button_rect, "REINICIAR", mouse_pos)
 
-# --- Função principal ---
+# --- Main ---
 
 def main():
     global WIDTH, HEIGHT
